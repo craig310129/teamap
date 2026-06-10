@@ -1,0 +1,9 @@
+{
+  "name": "nearby-bubble-tea",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "start": "python3 server.py",
+    "dev": "npm run start"
+  }
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>找茶TeaMap</title>
+    <link rel="icon" href="logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <div class="app">
+        <header class="header">
+          <div class="brand">
+            <div class="brand__text">
+              <h1 class="brand__title">
+                <span class="brand__title-main">找茶TeaMap</span>
+                <span class="brand__title-credit">(by Craig.Chien)</span>
+              </h1>
+              <p class="brand__tagline" data-i18n="tagline">輕鬆找到附近的飲料店</p>
+            </div>
+            <div class="lang-switch" role="group" aria-label="Language">
+              <button type="button" class="lang-switch__btn" data-lang="zh">中文</button>
+              <button type="button" class="lang-switch__btn" data-lang="en">EN</button>
+            </div>
+          </div>
+
+          <div id="setupPanel" class="setup-panel" hidden>
+            <h2 data-i18n="setupTitle">需要先設定 Google API 金鑰</h2>
+            <p data-i18n="setupBody">
+              複製 .env.example 為 .env，填入 GOOGLE_MAPS_API_KEY，並在 Google Cloud 啟用 Places API 與 Geocoding API。
+            </p>
+          </div>
+
+          <div id="secureWarning" class="alert alert--warning" hidden data-i18n="secureWarning">
+            瀏覽器定位需要 HTTPS 或 localhost。若無法自動定位，請改用手動輸入地址或在下方地圖點選位置。
+          </div>
+
+          <section class="search-panel">
+            <div class="search-panel__top">
+              <div class="radius-field">
+                <label class="field-label" for="radiusSelect" data-i18n="searchRadius">搜尋半徑</label>
+                <select id="radiusSelect" class="text-input text-input--select">
+                  <option value="1000">1 km</option>
+                  <option value="2000">2 km</option>
+                  <option value="3000">3 km</option>
+                  <option value="5000" selected>5 km</option>
+                  <option value="7000">7 km</option>
+                  <option value="10000">10 km</option>
+                </select>
+              </div>
+            </div>
+
+            <label class="field-label" for="addressInput" data-i18n="addressLabel">手動輸入地址或地標</label>
+            <div class="search-row">
+              <input
+                id="addressInput"
+                class="text-input"
+                type="text"
+                data-i18n-placeholder="addressPlaceholder"
+                placeholder="例如：台北車站、台中一中、高雄85大樓"
+              />
+              <button id="addressSearchBtn" class="btn btn--secondary" type="button" data-i18n="search">
+                搜尋
+              </button>
+            </div>
+
+            <div class="action-row">
+              <button id="geoBtn" class="btn btn--primary" type="button" data-i18n="useMyLocation">
+                使用我的位置
+              </button>
+            </div>
+          </section>
+
+          <div id="map" class="map" data-i18n-aria="mapAria" aria-label="選擇搜尋位置的地圖"></div>
+
+          <div id="browseView" class="browse-view" hidden>
+            <p class="browse-hint" data-i18n="browseHint">滾輪或拖曳下方捲軸左右選店，點卡片在下方查看詳情</p>
+            <div class="shop-strip-wrap">
+              <div id="shopStrip" class="shop-strip" role="list"></div>
+              <div id="shopStripScrollbar" class="shop-strip__scrollbar" hidden>
+                <div id="shopStripTrack" class="shop-strip__scrollbar-track">
+                  <div id="shopStripThumb" class="shop-strip__scrollbar-thumb"></div>
+                </div>
+              </div>
+            </div>
+            <article id="shopDetail" class="place-detail" hidden>
+              <div id="shopDetailContent"></div>
+            </article>
+          </div>
+        </header>
+
+        <main class="main">
+          <div id="statusPanel" class="status-panel is-active">
+            <div id="statusSpinner" class="spinner" aria-hidden="true"></div>
+            <p id="statusText" data-i18n="initializing">正在初始化…</p>
+          </div>
+
+          <div id="emptyState" class="empty-state" hidden>
+            <div class="empty-state__icon">🍵</div>
+            <h2 data-i18n="emptyTitle">附近沒有找到手搖飲店</h2>
+            <p data-i18n="emptyBody">試試加大搜尋半徑，或換個地址再搜尋一次。</p>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="i18n.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
