@@ -250,10 +250,37 @@ function initShopStripControls() {
   syncShopStripScrollbar();
 }
 
-function renderStarIcons(rating, { round = false } = {}) {
+function formatRatingValue(rating) {
+  const value = Number(rating);
+  if (Number.isNaN(value)) {
+    return "";
+  }
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function renderStarIcons(rating) {
   const value = Math.max(0, Math.min(5, Number(rating) || 0));
-  const filled = round ? Math.round(value) : Math.floor(value);
-  return `${"★".repeat(filled)}${"☆".repeat(5 - filled)}`;
+  const stars = [];
+
+  for (let index = 1; index <= 5; index += 1) {
+    const fill = Math.max(0, Math.min(1, value - (index - 1)));
+
+    if (fill >= 1) {
+      stars.push('<span class="star-icon star-icon--full" aria-hidden="true">★</span>');
+    } else if (fill > 0) {
+      const fillPercent = Math.round(fill * 100);
+      stars.push(
+        `<span class="star-icon star-icon--partial" aria-hidden="true" style="--star-fill: ${fillPercent}%">` +
+          `<span class="star-icon__empty">☆</span>` +
+          `<span class="star-icon__filled"><span>★</span></span>` +
+          `</span>`
+      );
+    } else {
+      stars.push('<span class="star-icon star-icon--empty" aria-hidden="true">☆</span>');
+    }
+  }
+
+  return `<span class="star-rating__icons">${stars.join("")}</span>`;
 }
 
 function renderStarRating(rating, options = {}) {
@@ -262,9 +289,10 @@ function renderStarRating(rating, options = {}) {
   }
 
   const { showValue = true, className = "star-rating" } = options;
-  const valueText = showValue ? `<span class="star-rating__value">${rating}</span>` : "";
+  const displayRating = formatRatingValue(rating);
+  const valueText = showValue ? `<span class="star-rating__value">${displayRating}</span>` : "";
 
-  return `<span class="${className}" aria-label="${escapeHtml(t("starsAria", { rating }))}">${renderStarIcons(rating)}${valueText}</span>`;
+  return `<span class="${className}" aria-label="${escapeHtml(t("starsAria", { rating: displayRating }))}">${renderStarIcons(rating)}${valueText}</span>`;
 }
 
 function renderOpenStatusBadge(isOpen) {

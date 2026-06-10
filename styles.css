@@ -53,11 +53,44 @@ body {
   gap: 6px;
   color: #e6a817;
   font-size: 0.92rem;
-  letter-spacing: 0.04em;
 }
 
 .star-rating--large {
   font-size: 1rem;
+}
+
+.star-rating__icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.star-icon {
+  position: relative;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.star-icon--partial .star-icon__empty {
+  color: #e6a817;
+  opacity: 0.32;
+}
+
+.star-icon--partial .star-icon__filled {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--star-fill);
+  overflow: hidden;
+  color: #e6a817;
+}
+
+.star-icon--partial .star-icon__filled > span {
+  display: block;
+  width: 1em;
 }
 
 .star-rating__value {
