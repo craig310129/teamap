@@ -2,7 +2,7 @@ const I18N_STORAGE_KEY = "teamap_lang";
 
 const STRINGS = {
   zh: {
-    pageTitle: "找茶TeaMap",
+    pageTitle: "🍃 TEA MAP",
     tagline: "輕鬆找到附近的飲料店",
     searchRadius: "搜尋半徑",
     addressLabel: "手動輸入地址或地標",
@@ -47,7 +47,7 @@ const STRINGS = {
     langLabel: "語言",
   },
   en: {
-    pageTitle: "找茶TeaMap",
+    pageTitle: "🍃 TEA MAP",
     tagline: "Find drink shops near you",
     searchRadius: "Search radius",
     addressLabel: "Enter an address or landmark",
