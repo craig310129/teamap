@@ -9,6 +9,7 @@ const statusPanel = document.getElementById("statusPanel");
 const statusSpinner = document.getElementById("statusSpinner");
 const statusText = document.getElementById("statusText");
 const browseView = document.getElementById("browseView");
+const searchResultCount = document.getElementById("searchResultCount");
 const shopStrip = document.getElementById("shopStrip");
 const shopStripScrollbar = document.getElementById("shopStripScrollbar");
 const shopStripTrack = document.getElementById("shopStripTrack");
@@ -90,6 +91,29 @@ function showErrorStatus(message) {
 function hideStatusPanel() {
   statusPanel.classList.remove("is-active", "status-panel--error", "status-panel--done");
   statusSpinner.hidden = false;
+}
+
+function formatSearchResultCount(count) {
+  if (count === 1) {
+    return t("searchResultCountOne");
+  }
+
+  return t("searchResultCount", { count });
+}
+
+function updateSearchResultCount(count) {
+  if (!searchResultCount) {
+    return;
+  }
+
+  if (count > 0) {
+    searchResultCount.textContent = formatSearchResultCount(count);
+    searchResultCount.hidden = false;
+    return;
+  }
+
+  searchResultCount.textContent = "";
+  searchResultCount.hidden = true;
 }
 
 function formatDistance(meters) {
@@ -854,6 +878,7 @@ function renderResults(shops, lat, lon) {
   currentShops = shops;
   renderMapMarkers(currentShops);
   renderShopStrip();
+  updateSearchResultCount(shops.length);
   setMapToSearchRadius(lat, lon);
 
   hideStatusPanel();
